@@ -1,0 +1,42 @@
+<md-dialog flex="45" aria-label="Eliminar archivo">
+    <md-dialog-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h4>Subiendo archivo</h4>
+            </div>
+        </md-toolbar>
+
+        <md-content layout-padding>
+
+            <section ng-if="!$ctrl.fileUploadingMessage" layout="column" layout-align="center center">
+
+                <h3>Se está subiendo un archivo</h3>
+
+                <p>
+                    Por favor, no cierres la pestaña hasta que se complete esta acción
+                </p>
+
+                <div>
+                    <md-progress-circular md-mode="indeterminate" md-diameter="50"></md-progress-circular>
+                </div>
+            </section>
+
+            <section ng-if="$ctrl.fileUploadingMessage" layout="column" layout-align="center center">
+                <h3>
+                    {{ $ctrl.fileUploadingResult }}
+                </h3>
+                <p>
+                    {{ $ctrl.fileUploadingMessage }}
+                </p>
+            </section>
+
+        </md-content>
+    </md-dialog-content>
+
+    <!-- Actions -->
+    <md-dialog-actions>
+        <md-button ng-if="$ctrl.hasFinishedUploadingAction" class="md-accent" ng-click="$ctrl.$mdDialog.hide()">
+            Aceptar
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

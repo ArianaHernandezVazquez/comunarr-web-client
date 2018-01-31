@@ -3,6 +3,7 @@ import template from './files.html';
 import dialogFormTemplate from './files.form.dialog.html';
 import dialogDetailsTemplate from './files.details.dialog.html';
 import dialogConfirmDeleteTemplate from './files.confirm-delete.dialog.html';
+import dialogUploadingFileTemplate from './files.dialog-uploading-file.template.html';
 
 export const FilesComponent = {
     bindings: {},
@@ -188,6 +189,11 @@ export const FilesComponent = {
          * @param {any} file Only on edition
          */
         addOrEditFile(targetEvent, method, file) {
+            // All variables are related to error/success of uploading a file
+            this.hasFinishedUploadingAction = false;
+            this.fileUploadingResult = null;
+            this.fileUploadingMessage = null;
+
             this.DiskSpaceService.get().then(({ freeSpace }) => {
                 this.freeSpace = freeSpace; // in KB
                 if (method === 'edit') {
@@ -233,6 +239,16 @@ export const FilesComponent = {
                             }
                         }
 
+                        this.$mdDialog.show({
+                            preserveScope: true,
+                            scope: this.$scope,
+                            template: dialogUploadingFileTemplate
+                        }).then(() => {
+                            this.hasFinishedUploadingAction = false;
+                            this.fileUploadingResult = null;
+                            this.fileUploadingMessage = null;
+                        });
+
                         this.FilesService[method](formData).then(() => {
                             this.$mdToast.show(this.$mdToast.simple()
                                 .textContent(`Éxito: se ${method === 'edit' ? 'actualizó' : 'subió'} de forma correcta el archivo`)
@@ -242,6 +258,14 @@ export const FilesComponent = {
                             this.isEditing = false;
                             this.getKeyWords(true);
                             this.search(this.selectedTabIndex === 1 ? 'specific' : 'simple');
+
+                            this.hasFinishedUploadingAction = true;
+                            this.fileUploadingResult = 'Éxito';
+                            this.fileUploadingMessage = 'El archivo se subió de forma correcta';
+                        }).catch(err => {
+                            this.hasFinishedUploadingAction = true;
+                            this.fileUploadingResult = 'Error';
+                            this.fileUploadingMessage = 'Hubo problemas de conexión, inténtalo nuevamente';
                         });
                     })
                     .catch(() => {
