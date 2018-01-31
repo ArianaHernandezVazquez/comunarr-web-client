@@ -1,0 +1,52 @@
+<md-content layout-padding>
+    <header layout="row">
+        <h1>
+            Colectivos
+        </h1>
+        <span flex></span>
+        <div>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.addOrEdit($ctrl.getNewCollective(), $event, 'add')"> Añadir nuevo colectivo </md-button>
+        </div>
+    </header>
+
+    <aside>
+        <small>* Sólo se muestran los proyectos marcados como activos</small>
+    </aside>
+
+    <section ng-if="$ctrl.collectives.length > 0">
+        <header layout="row">
+            <h2 flex="40" layout-margin>Nombre</h2>
+            <h2 flex layout-margin>Proyectos relacionados</h2>
+            <h2 flex layout-margin>Estatus</h2>
+            <span flex></span>
+        </header>
+
+        <md-divider></md-divider>
+
+        <article ng-repeat="collective in $ctrl.collectives | orderBy: 'name'">
+            <div layout="row" layout-align="start center">
+                <p flex="40" layout-margin> {{ collective.name }} </p>
+                <ul flex layout-margin>
+                    <li ng-repeat="project in collective.comunarrProjects | filter: { status: true } | orderBy: 'name'">
+                        {{ project.name }}
+                    </li>
+                </ul>
+                <p flex layout-margin>
+                    {{ collective.status | Active }}
+                </p>
+                <span flex></span>
+                <div>
+                    <md-button class="md-fab md-primary md-mini" ng-click="$ctrl.addOrEdit(collective, $event, 'edit')">
+                        <md-icon>edit</md-icon>
+                        <md-tooltip>
+                            Editar
+                        </md-tooltip>
+                    </md-button>
+                </div>
+            </div>
+            <md-divider></md-divider>
+        </article>
+    </section>
+
+    <no-registers-found type-of-registers="colectivos" ng-if="$ctrl.collectives.length === 0"></no-registers-found>
+</md-content>

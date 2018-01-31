@@ -1,0 +1,61 @@
+<md-dialog flex="70">
+    <form name="collectiveForm">
+        <md-dialog-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h4 ng-if="$ctrl.isEditing">Editar colectivo</h4>
+                    <h4 ng-if="!$ctrl.isEditing">Añadir colectivo</h4>
+                </div>
+            </md-toolbar>
+
+            <md-content layout-padding>
+                <div>
+                    <md-input-container class="md-block">
+                        <label>Nombre</label>
+                        <input ng-model="$ctrl.selectedCollective.name" name="name" required minlength="4" md-maxlength="255">
+                        <div ng-messages="collectiveForm.name.$error">
+                            <div ng-message="required">Es un campo requerido</div>
+                            <div ng-message="minlength">Mínimo 4 caracteres</div>
+                            <div ng-message="md-maxlength">Máximo 255 caracteres</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div ng-if="$ctrl.isEditing">
+                    <md-checkbox class="md-primary" ng-model="$ctrl.selectedCollective.status" aria-label="Colectivo activo">
+                        Colectivo activo
+                    </md-checkbox>
+                </div>
+
+                <div>
+                    <h3>Proyectos relacionados *</h3>
+                </div>
+
+                <div layout="row" layout-wrap>
+                    <div flex="25" ng-repeat="project in $ctrl.projects | filter: { status: true }">
+                        <md-checkbox class="md-primary" ng-checked="$ctrl.isProjectInCollective(project, $ctrl.selectedCollective)" aria-label="proyecto"
+                            ng-click="$ctrl.toggleProjectToCollective(project, $ctrl.selectedCollective)">
+                            {{ project.name }}
+                        </md-checkbox>
+                    </div>
+                </div>
+            </md-content>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <span flex>
+                <small>* Sólo se muestran los proyectos marcados como activos</small>
+            </span>
+            <md-button md-no-ink class="md-primary" ng-click="$ctrl.$mdDialog.cancel()">
+                Cancelar
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.$mdDialog.hide($ctrl.selectedCollective)" ng-if="$ctrl.isEditing"
+                ng-disabled="collectiveForm.$invalid || $ctrl.filterByActive($ctrl.selectedCollective.comunarrProjects).length === 0">
+                Guardar
+            </md-button>
+            <md-button class="md-primary md-raised" ng-click="$ctrl.$mdDialog.hide($ctrl.selectedCollective)" ng-if="!$ctrl.isEditing"
+                ng-disabled="collectiveForm.$invalid || $ctrl.filterByActive($ctrl.selectedCollective.comunarrProjects).length === 0">
+                Añadir
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

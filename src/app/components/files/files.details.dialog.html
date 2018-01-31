@@ -1,0 +1,98 @@
+<md-dialog flex="90" aria-label="Subir archivo">
+
+    <md-dialog-content>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h4>Detalles</h4>
+            </div>
+        </md-toolbar>
+
+        <md-content layout-padding>
+            <div layout="row" layout-align="start center">
+                <div flex="80">
+                    <!-- Name -->
+                    <div>
+                        <span class="md-display-1"> {{ $ctrl.form.name }} </span>
+                    </div>
+
+                    <!-- Author -->
+                    <div>
+                        <span class="md-headline"> <strong>Autor:</strong> </span>
+                        <span class="md-headline"> {{ $ctrl.form.author }} </span>
+                    </div>
+                </div>
+                <div>
+                    <img ng-src="./img/docs-icons/{{ $ctrl.form.fileTypeImage }}.svg" class="full-width" alt="Tipo de archivo">
+                </div>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Proyecto:</strong> {{ $ctrl.form.comunarrProject }} </span>
+                </div>
+                <div flex>
+                    <span class="md-subhead"> <strong>Colectivo:</strong> {{ $ctrl.form.collective }} </span>
+                </div>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Tema general:</strong> {{ $ctrl.form.generalTopic }} </span>
+                </div>
+                <div flex>
+                    <span class="md-subhead">
+                        <strong>Tema específico:</strong>
+                        <label ng-if="$ctrl.form.specificTopic.length > 0">{{ $ctrl.form.specificTopic }}</label>
+                        <label ng-if="!$ctrl.form.specificTopic">--</label>
+                    </span>
+                </div>
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Tamaño:</strong> {{ $ctrl.form.size | SizeConverter }} </span>
+                </div>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <span class="md-subhead"><strong>Tipo de contenido:</strong> {{ $ctrl.form.contentType }}</span>
+                </div>
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Lugar:</strong> {{ $ctrl.form.place }} <label ng-if="!$ctrl.form.place || $ctrl.form.place.length === 0"> -- </label> </span>
+                </div>
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Creado por:</strong> {{ $ctrl.form.uploadedBy }}</span>
+                </div>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Fecha del documento:</strong> {{ $ctrl.form.relatedDate | date: 'dd/MM/yyyy' }} <label ng-if="!$ctrl.form.relatedDate || $ctrl.form.relatedDate.length === 0"> -- </label></span>
+                </div>
+                <div flex="33">
+                    <span class="md-subhead"> <strong>Fecha de actualización:</strong> {{ $ctrl.form.updateDate | date: 'dd/MM/yyyy' }}</span>
+                </div>
+                <div flex="33">
+                    <span class="md-subhead">
+                        <strong>¿Quién lo puede ver?:</strong> {{ $ctrl.form.privacyType }}
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                <span class="md-subhead"> <strong>Palabras clave: </strong></span> <span ng-if="$ctrl.form.keyWords.length === 0"> - - </span>
+                <md-chips ng-model="$ctrl.form.keyWords" readonly="true" ng-if="$ctrl.form.keyWords.length >= 0">
+                    <md-chip-template>
+                        {{ $chip.name }}
+                    </md-chip-template>
+                </md-chips>
+            </div>
+
+        </md-content>
+    </md-dialog-content>
+
+    <!-- Actions -->
+    <md-dialog-actions>
+        <md-button md-no-ink class="md-primary" ng-click="$ctrl.$mdDialog.hide()">
+            Aceptar
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>
