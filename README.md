@@ -9,12 +9,12 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 **You need to have installed Node's 6.9.5 version.**
-* We recommend you to use [nvm](https://github.com/creationix/nvm) for managing different node versions in MacOS
+* We recommend you to use [nvm](https://github.com/creationix/nvm) for managing different node versions in MacOS/Linux
 * For Windows users there are two alternatives:
     * [nvm-windows](https://github.com/coreybutler/nvm-windows)
     * [nodist](https://github.com/marcelklehr/nodist) - best option
 
-After you are sure to be using at least 6.9.5 version of Node, you can install all dependencies by running:
+After you are sure of being using 6.9.5 version of Node, you can install all dependencies by running:
 
 ```
 npm install
@@ -22,12 +22,25 @@ npm install
 
 You can run a dev-server by running
 ```
+// Only in debugging mode
 npm start
 ```
 
 ## Deployment
 
-@TODO
+1. Run the follow command in order to install all dependencies
+```npm install```
+
+2. Change in the follow file ```src/app/config/environment.config.js``` to set the correct environment, the list of all available environments are located in ```./src/app/common/services/environment.service.js```, you need to replace or add a new one in order to connect to the API
+
+3. After setting up the environment, execute the following command:
+```
+    npm build
+```
+This command will create a directory under the root called ```dist```
+
+4. Locate the dist directory in any web server
+
 
 ## Built With 💚 and the following great projects:
 
@@ -37,3 +50,7 @@ npm start
 * [Babel](https://babeljs.io/) - ES2015 transpiler
 * [Airbnb JavaScript Style Guide() {](https://github.com/airbnb/javascript) Code style guide
 * [Todd Motto's Angular 1.x Style Guide](https://github.com/toddmotto/angular-styleguide) Architecture style guide
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
